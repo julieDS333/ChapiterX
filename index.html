@@ -10,113 +10,94 @@
         .screen { display: none; height: 100vh; width: 100vw; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; padding: 20px; box-sizing: border-box; }
         .active { display: flex; }
         
-        /* Animations */
+        /* Sparkles Background */
+        .sparkle { position: absolute; color: gold; font-size: 20px; animation: twinkle 2s infinite ease-in-out; pointer-events: none; z-index: 0; }
+        @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } }
+
+        /* Map Animations */
         .map-container { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
         .map-bg { width: 100%; height: 100%; object-fit: cover; filter: blur(10px) brightness(0.4); }
-        .floating { position: absolute; width: 60px; animation: fly 4s infinite linear; opacity: 0.8; }
+        .floating { position: absolute; animation: fly 3s infinite linear; opacity: 0.9; }
         @keyframes fly { 
-            0% { transform: translate(-10vw, 110vh) rotate(0deg); } 
-            100% { transform: translate(110vw, -10vh) rotate(360deg); } 
+            0% { transform: translate(-20vw, 120vh) rotate(0deg); } 
+            100% { transform: translate(120vw, -20vh) rotate(720deg); } 
         }
 
         /* UI Elements */
-        .btn { background: var(--accent); color: white; padding: 15px 30px; border: none; cursor: pointer; font-weight: bold; margin: 10px; text-transform: uppercase; letter-spacing: 2px; }
-        .btn-hint { background: transparent; border: 1px solid var(--accent); font-size: 0.8em; }
-        .hint-pop { max-width: 70%; max-height: 40vh; margin-top: 15px; border: 2px solid var(--accent); display: none; }
-        .char-img { width: 120px; border-radius: 50%; border: 3px solid var(--accent); margin-bottom: 10px; }
-        h1, h2 { text-transform: uppercase; text-shadow: 2px 2px var(--accent); }
+        .btn { background: var(--accent); color: white; padding: 15px 30px; border: none; cursor: pointer; font-weight: bold; margin: 10px; text-transform: uppercase; letter-spacing: 2px; z-index: 10; }
+        .hint-box { background: rgba(255, 0, 85, 0.1); border: 2px dashed var(--accent); padding: 15px; margin: 15px; border-radius: 10px; display: none; }
+        .discovery-img { width: 85%; max-height: 40vh; object-fit: contain; border: 3px solid white; margin: 10px 0; }
+        .char-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid gold; object-fit: cover; }
     </style>
 </head>
-<body>
+<body onload="createSparkles()">
 
     <div id="step-1" class="screen active">
         <img src="illustration.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.4; z-index:-1;">
         <h1>The Enigma World</h1>
-        <p>A collection of characters, mysteries, and dares.</p>
         <button class="btn" onclick="nextStep()">Begin the Hunt</button>
     </div>
 
     <div id="step-2" class="screen">
         <h2>Place 1</h2>
-        <p>"Seek the place that sells novels by the glass.<br>I follow the pair, but I am not even. Seek me on your path east."</p>
-        <button class="btn btn-hint" onclick="toggle('h1')">Hint</button>
-        <img id="h1" src="discovery 1.png" class="hint-pop">
+        <p>"Seek the place that sells novels by the glass..."</p>
+        <img src="discovery 1.png" class="discovery-img">
+        <button class="btn" onclick="showHint('h1')">Show Hint</button>
+        <div id="h1" class="hint-box">✨ You're looking for an address ✨</div>
         <button class="btn" onclick="nextStep()">I got it bitch</button>
     </div>
 
     <div id="step-3" class="screen">
-        <div class="map-container">
-            <img src="nycmap.png" class="map-bg">
-            <img src="pin map .svg.png" class="floating" style="left:10%; animation-delay:0s">
-            <img src="pin map .svg.png" class="floating" style="left:40%; animation-delay:1s">
-            <img src="pin map .svg.png" class="floating" style="left:70%; animation-delay:2s">
-        </div>
-        <h1>THEY ARE ATTACKING!</h1>
+        <div class="map-container" id="pins-container"></div>
+        <h1>UNDER ATTACK!</h1>
         <button class="btn" onclick="nextStep()">I arrived</button>
     </div>
 
     <div id="step-4" class="screen">
         <h2>Dare: The Book Club</h2>
-        <p>Pick a book, reinvent the plot, and rate it.<br>Note the shelf and location for fun.</p>
+        <p>Reinvent the plot. Rate the shelf.</p>
         <button class="btn" onclick="nextStep()">Completed</button>
     </div>
 
     <div id="step-5" class="screen">
         <h2>Place 2</h2>
-        <p>"45 Secret Temer(ity).<br>Julius Caesar set one on fire when Benjamin Franklin built one from scratch."</p>
-        <button class="btn btn-hint" onclick="alert('Hint: Bibliotheque')">Hint</button>
+        <p>"45 Secret Temer(ity)..."</p>
+        <button class="btn" onclick="showHint('h2')">Show Hint</button>
+        <div id="h2" class="hint-box">Hint: Bibliotheque</div>
         <button class="btn" onclick="nextStep()">I got it bitch</button>
     </div>
 
     <div id="step-6" class="screen">
-        <div class="map-container">
-            <img src="nycmap.png" class="map-bg">
-            <img src="metrocard.png" class="floating" style="left:20%; animation-delay:0.5s">
-            <img src="metrocard.png" class="floating" style="left:60%; animation-delay:1.5s">
-        </div>
+        <div class="map-container" id="metro-container"></div>
         <h1>TRANSIT IN PROGRESS</h1>
         <button class="btn" onclick="nextStep()">I arrived</button>
     </div>
 
     <div id="step-7" class="screen">
         <h2>Dare: The Triple Identity</h2>
-        <div style="display:flex; gap:10px; margin-bottom:20px;">
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
             <img src="maggi.jpg" class="char-img">
             <img src="meredith palmer.jpg" class="char-img">
         </div>
-        <p style="font-size:0.8em; max-width:80%;">1. Beatrix (Kill Bill style)<br>2. Maggie (30yo Simpson)<br>3. Meredith (Office gloom)</p>
         <button class="btn" onclick="nextStep()">Completed</button>
     </div>
 
     <div id="step-8" class="screen">
         <h2>Place 3</h2>
-        <img src="discovery 3.webp" style="width:200px; margin-bottom:10px;">
-        <p style="font-size:0.9em;">"August is 234 years old... never trust a sailor.<br>The angle of a straight line will help you find him."</p>
-        <button class="btn btn-hint" onclick="alert('Hint: Ludlow St. Song')">Hint</button>
+        <p>"August is 234 years old..."</p>
+        <a href="https://www.youtube.com/watch?v=ADjSOOj7hSw" target="_blank" class="btn" style="background:gold;color:black;">Listen for Hint</a>
         <button class="btn" onclick="nextStep()">I got it bitch</button>
     </div>
 
-    <div id="step-9" class="screen">
-        <div class="map-container">
-            <img src="nycmap.png" class="map-bg">
-            <img src="pin map .svg.png" class="floating">
-        </div>
-        <h1>FINAL STRETCH</h1>
-        <button class="btn" onclick="nextStep()">I arrived</button>
-    </div>
+    <div id="step-9" class="screen"><div class="map-container" id="final-pins"></div><button class="btn" onclick="nextStep()">I arrived</button></div>
 
     <div id="step-10" class="screen">
         <h2>Dare: August & Elizabeth</h2>
-        <p>August is cheating. Elizabeth is cheating. <br>Roleplay this historic scandal!</p>
+        <p>The scandal unfolds!</p>
         <button class="btn" onclick="nextStep()">Completed</button>
     </div>
 
-    <div id="step-11" class="screen">
-        <img src="illustration.png" style="width:250px; border:4px solid gold;">
-        <h1>Enigma Master Dani</h1>
-        <p>You solved the riddles and survived the personas.</p>
-        <p>Date successfully completed!</p>
-    </div>
+    <div id="step-11" class="screen"><h1>Mission Accomplished, Dani</h1></div>
 
     <script>
         let current = 1;
@@ -124,10 +105,36 @@
             document.getElementById(`step-${current}`).classList.remove('active');
             current++;
             document.getElementById(`step-${current}`).classList.add('active');
+            if(current === 3) spawnAssets('pins-container', 'pin map .svg.png', 12);
+            if(current === 6) spawnAssets('metro-container', 'metrocard.png', 12);
+            if(current === 9) spawnAssets('final-pins', 'pin map .svg.png', 15);
         }
-        function toggle(id) {
-            const img = document.getElementById(id);
-            img.style.display = img.style.display === 'block' ? 'none' : 'block';
+
+        function showHint(id) { document.getElementById(id).style.display = 'block'; }
+
+        function createSparkles() {
+            for(let i=0; i<40; i++) {
+                let s = document.createElement('div');
+                s.className = 'sparkle';
+                s.innerHTML = '✨';
+                s.style.left = Math.random()*100 + 'vw';
+                s.style.top = Math.random()*100 + 'vh';
+                s.style.animationDelay = Math.random()*2 + 's';
+                document.body.appendChild(s);
+            }
+        }
+
+        function spawnAssets(containerId, imgSrc, count) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<img src="nycmap.png" class="map-bg">`;
+            for(let i=0; i<count; i++) {
+                let img = document.createElement('img');
+                img.src = imgSrc;
+                img.className = 'floating';
+                img.style.left = Math.random()*80 + 'vw';
+                img.style.animationDelay = (Math.random()*3) + 's';
+                container.appendChild(img);
+            }
         }
     </script>
 </body>
