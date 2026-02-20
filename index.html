@@ -17,17 +17,21 @@
         /* Map Animations */
         .map-container { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
         .map-bg { width: 100%; height: 100%; object-fit: cover; filter: blur(10px) brightness(0.4); }
-        .floating { position: absolute; animation: fly 3s infinite linear; opacity: 0.9; }
+        .floating { position: absolute; animation: fly 3s infinite linear; opacity: 0.9; width: 60px; }
         @keyframes fly { 
             0% { transform: translate(-20vw, 120vh) rotate(0deg); } 
             100% { transform: translate(120vw, -20vh) rotate(720deg); } 
         }
 
         /* UI Elements */
-        .btn { background: var(--accent); color: white; padding: 15px 30px; border: none; cursor: pointer; font-weight: bold; margin: 10px; text-transform: uppercase; letter-spacing: 2px; z-index: 10; }
-        .hint-box { background: rgba(255, 0, 85, 0.1); border: 2px dashed var(--accent); padding: 15px; margin: 15px; border-radius: 10px; display: none; }
+        .btn { background: var(--accent); color: white; padding: 15px 30px; border: none; cursor: pointer; font-weight: bold; margin: 10px; text-transform: uppercase; letter-spacing: 2px; z-index: 10; border-radius: 5px; }
+        .btn-hint { background: transparent; border: 1px solid var(--accent); }
+        .hint-box { background: rgba(255, 0, 85, 0.2); border: 2px dashed var(--accent); padding: 15px; margin: 15px; border-radius: 10px; display: none; color: gold; font-weight: bold; }
         .discovery-img { width: 85%; max-height: 40vh; object-fit: contain; border: 3px solid white; margin: 10px 0; }
-        .char-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid gold; object-fit: cover; }
+        .char-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .char-card { cursor: pointer; transition: transform 0.2s; width: 100px; }
+        .char-card:hover { transform: scale(1.1); }
+        .char-img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid gold; object-fit: cover; }
     </style>
 </head>
 <body onload="createSparkles()">
@@ -39,81 +43,112 @@
     </div>
 
     <div id="step-2" class="screen">
-        <h2>Place 1</h2>
+        <h2>Stop #1</h2>
         <p>"Seek the place that sells novels by the glass..."</p>
         <img src="discovery 1.png" class="discovery-img">
-        <button class="btn" onclick="showHint('h1')">Show Hint</button>
+        <button class="btn btn-hint" onclick="showHint('h1')">Show Hint</button>
         <div id="h1" class="hint-box">✨ You're looking for an address ✨</div>
         <button class="btn" onclick="nextStep()">I got it bitch</button>
     </div>
 
     <div id="step-3" class="screen">
         <div class="map-container" id="pins-container"></div>
-        <h1>UNDER ATTACK!</h1>
+        <h1 style="background: rgba(0,0,0,0.6); padding: 10px;">THEY ARE ATTACKING!</h1>
         <button class="btn" onclick="nextStep()">I arrived</button>
     </div>
 
     <div id="step-4" class="screen">
         <h2>Dare: The Book Club</h2>
-        <p>Reinvent the plot. Rate the shelf.</p>
+        <p>Pick a book, reinvent the plot and rate it.<br>Name the shelf and the place just for fun.</p>
         <button class="btn" onclick="nextStep()">Completed</button>
     </div>
 
     <div id="step-5" class="screen">
-        <h2>Place 2</h2>
-        <p>"45 Secret Temer(ity)..."</p>
-        <button class="btn" onclick="showHint('h2')">Show Hint</button>
-        <div id="h2" class="hint-box">Hint: Bibliotheque</div>
+        <h2>Stop #2</h2>
+        <p>"45 Secret Temer(ity). Julius Caesar set one on fire..."</p>
+        <button class="btn btn-hint" onclick="showHint('h2')">Show Hint</button>
+        <div id="h2" class="hint-box">✨ Hint: Bibliotheque ✨</div>
         <button class="btn" onclick="nextStep()">I got it bitch</button>
     </div>
 
     <div id="step-6" class="screen">
         <div class="map-container" id="metro-container"></div>
-        <h1>TRANSIT IN PROGRESS</h1>
+        <h1 style="background: rgba(0,0,0,0.6); padding: 10px;">TRANSIT IN PROGRESS</h1>
         <button class="btn" onclick="nextStep()">I arrived</button>
     </div>
 
     <div id="step-7" class="screen">
         <h2>Dare: The Triple Identity</h2>
-        <div style="display:flex; gap:10px; margin-bottom:10px;">
-            <img src="maggi.jpg" class="char-img">
-            <img src="meredith palmer.jpg" class="char-img">
+        <div class="char-container">
+            <div class="char-card" onclick="showDare('beatrix')">
+                <img src="kill bill.jpg" class="char-img">
+                <p>Beatrix</p>
+            </div>
+            <div class="char-card" onclick="showDare('maggie')">
+                <img src="maggi.jpg" class="char-img">
+                <p>Maggie</p>
+            </div>
+            <div class="char-card" onclick="showDare('meredith')">
+                <img src="meredith palmer.jpg" class="char-img">
+                <p>Meredith</p>
+            </div>
         </div>
+        <div id="dare-box" class="hint-box" style="display:block; min-height: 60px;">Click a face to reveal your mission...</div>
         <button class="btn" onclick="nextStep()">Completed</button>
     </div>
 
     <div id="step-8" class="screen">
-        <h2>Place 3</h2>
-        <p>"August is 234 years old..."</p>
-        <a href="https://www.youtube.com/watch?v=ADjSOOj7hSw" target="_blank" class="btn" style="background:gold;color:black;">Listen for Hint</a>
+        <h2>Stop #3</h2>
+        <p>"August is 234 years old... never trust a sailor."</p>
+        <a href="https://www.youtube.com/watch?v=ADjSOOj7hSw" target="_blank" class="btn" style="background:gold; color:black; text-decoration:none;">Listen for Hint</a>
         <button class="btn" onclick="nextStep()">I got it bitch</button>
     </div>
 
-    <div id="step-9" class="screen"><div class="map-container" id="final-pins"></div><button class="btn" onclick="nextStep()">I arrived</button></div>
+    <div id="step-9" class="screen">
+        <div class="map-container" id="final-pins"></div>
+        <h1 style="background: rgba(0,0,0,0.6); padding: 10px;">FINAL STRETCH</h1>
+        <button class="btn" onclick="nextStep()">I arrived</button>
+    </div>
 
     <div id="step-10" class="screen">
         <h2>Dare: August & Elizabeth</h2>
-        <p>The scandal unfolds!</p>
+        <p>A gruff Navy officer and a cheating scandal.<br>Roleplay the plot twist!</p>
         <button class="btn" onclick="nextStep()">Completed</button>
     </div>
 
-    <div id="step-11" class="screen"><h1>Mission Accomplished, Dani</h1></div>
+    <div id="step-11" class="screen">
+        <img src="illustration.png" style="width:280px; border:4px solid gold; margin-bottom: 20px;">
+        <h1>Mission Accomplished!</h1>
+        <p>You are the ultimate Enigma Master, Dani.</p>
+    </div>
 
     <script>
         let current = 1;
+        const dares = {
+            beatrix: "The Bride: You must mention wanting to kill your teammates because they tried to kill you in a church. You need a new Katana!",
+            maggie: "30yo Maggie: Describe your relationship with your family (Homer, Marge, etc.) now that you are an adult.",
+            meredith: "Meredith: You're depressed the office is closing. Mention Michael and the team with a specific anecdote."
+        };
+
         function nextStep() {
             document.getElementById(`step-${current}`).classList.remove('active');
             current++;
             document.getElementById(`step-${current}`).classList.add('active');
-            if(current === 3) spawnAssets('pins-container', 'pin map .svg.png', 12);
-            if(current === 6) spawnAssets('metro-container', 'metrocard.png', 12);
-            if(current === 9) spawnAssets('final-pins', 'pin map .svg.png', 15);
+            
+            if(current === 3) spawnAssets('pins-container', 'pin map .svg.png', 15);
+            if(current === 6) spawnAssets('metro-container', 'metrocard.png', 15);
+            if(current === 9) spawnAssets('final-pins', 'pin map .svg.png', 20);
         }
 
         function showHint(id) { document.getElementById(id).style.display = 'block'; }
 
+        function showDare(char) {
+            const box = document.getElementById('dare-box');
+            box.innerHTML = `✨ ${dares[char]} ✨`;
+        }
+
         function createSparkles() {
-            for(let i=0; i<40; i++) {
+            for(let i=0; i<50; i++) {
                 let s = document.createElement('div');
                 s.className = 'sparkle';
                 s.innerHTML = '✨';
@@ -131,8 +166,9 @@
                 let img = document.createElement('img');
                 img.src = imgSrc;
                 img.className = 'floating';
-                img.style.left = Math.random()*80 + 'vw';
+                img.style.left = Math.random()*90 + 'vw';
                 img.style.animationDelay = (Math.random()*3) + 's';
+                img.style.width = (40 + Math.random()*40) + 'px';
                 container.appendChild(img);
             }
         }
