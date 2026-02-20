@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dani's NYC Scavenger Hunt</title>
+    <style>
+        :root { --accent: #ff0055; --bg: #0a0a0a; }
+        body { background: var(--bg); color: white; font-family: 'Courier New', Courier, monospace; margin: 0; overflow: hidden; }
+        .screen { display: none; height: 100vh; width: 100vw; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; padding: 20px; box-sizing: border-box; }
+        .active { display: flex; }
+        
+        /* Animations */
+        .map-container { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+        .map-bg { width: 100%; height: 100%; object-fit: cover; filter: blur(10px) brightness(0.4); }
+        .floating { position: absolute; width: 60px; animation: fly 4s infinite linear; opacity: 0.8; }
+        @keyframes fly { 
+            0% { transform: translate(-10vw, 110vh) rotate(0deg); } 
+            100% { transform: translate(110vw, -10vh) rotate(360deg); } 
+        }
+
+        /* UI Elements */
+        .btn { background: var(--accent); color: white; padding: 15px 30px; border: none; cursor: pointer; font-weight: bold; margin: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .btn-hint { background: transparent; border: 1px solid var(--accent); font-size: 0.8em; }
+        .hint-pop { max-width: 70%; max-height: 40vh; margin-top: 15px; border: 2px solid var(--accent); display: none; }
+        .char-img { width: 120px; border-radius: 50%; border: 3px solid var(--accent); margin-bottom: 10px; }
+        h1, h2 { text-transform: uppercase; text-shadow: 2px 2px var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div id="step-1" class="screen active">
+        <img src="illustration.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.4; z-index:-1;">
+        <h1>The Enigma World</h1>
+        <p>A collection of characters, mysteries, and dares.</p>
+        <button class="btn" onclick="nextStep()">Begin the Hunt</button>
+    </div>
+
+    <div id="step-2" class="screen">
+        <h2>Place 1</h2>
+        <p>"Seek the place that sells novels by the glass.<br>I follow the pair, but I am not even. Seek me on your path east."</p>
+        <button class="btn btn-hint" onclick="toggle('h1')">Hint</button>
+        <img id="h1" src="discovery 1.png" class="hint-pop">
+        <button class="btn" onclick="nextStep()">I got it bitch</button>
+    </div>
+
+    <div id="step-3" class="screen">
+        <div class="map-container">
+            <img src="nycmap.png" class="map-bg">
+            <img src="pin map .svg.png" class="floating" style="left:10%; animation-delay:0s">
+            <img src="pin map .svg.png" class="floating" style="left:40%; animation-delay:1s">
+            <img src="pin map .svg.png" class="floating" style="left:70%; animation-delay:2s">
+        </div>
+        <h1>THEY ARE ATTACKING!</h1>
+        <button class="btn" onclick="nextStep()">I arrived</button>
+    </div>
+
+    <div id="step-4" class="screen">
+        <h2>Dare: The Book Club</h2>
+        <p>Pick a book, reinvent the plot, and rate it.<br>Note the shelf and location for fun.</p>
+        <button class="btn" onclick="nextStep()">Completed</button>
+    </div>
+
+    <div id="step-5" class="screen">
+        <h2>Place 2</h2>
+        <p>"45 Secret Temer(ity).<br>Julius Caesar set one on fire when Benjamin Franklin built one from scratch."</p>
+        <button class="btn btn-hint" onclick="alert('Hint: Bibliotheque')">Hint</button>
+        <button class="btn" onclick="nextStep()">I got it bitch</button>
+    </div>
+
+    <div id="step-6" class="screen">
+        <div class="map-container">
+            <img src="nycmap.png" class="map-bg">
+            <img src="metrocard.png" class="floating" style="left:20%; animation-delay:0.5s">
+            <img src="metrocard.png" class="floating" style="left:60%; animation-delay:1.5s">
+        </div>
+        <h1>TRANSIT IN PROGRESS</h1>
+        <button class="btn" onclick="nextStep()">I arrived</button>
+    </div>
+
+    <div id="step-7" class="screen">
+        <h2>Dare: The Triple Identity</h2>
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+            <img src="maggi.jpg" class="char-img">
+            <img src="meredith palmer.jpg" class="char-img">
+        </div>
+        <p style="font-size:0.8em; max-width:80%;">1. Beatrix (Kill Bill style)<br>2. Maggie (30yo Simpson)<br>3. Meredith (Office gloom)</p>
+        <button class="btn" onclick="nextStep()">Completed</button>
+    </div>
+
+    <div id="step-8" class="screen">
+        <h2>Place 3</h2>
+        <img src="discovery 3.webp" style="width:200px; margin-bottom:10px;">
+        <p style="font-size:0.9em;">"August is 234 years old... never trust a sailor.<br>The angle of a straight line will help you find him."</p>
+        <button class="btn btn-hint" onclick="alert('Hint: Ludlow St. Song')">Hint</button>
+        <button class="btn" onclick="nextStep()">I got it bitch</button>
+    </div>
+
+    <div id="step-9" class="screen">
+        <div class="map-container">
+            <img src="nycmap.png" class="map-bg">
+            <img src="pin map .svg.png" class="floating">
+        </div>
+        <h1>FINAL STRETCH</h1>
+        <button class="btn" onclick="nextStep()">I arrived</button>
+    </div>
+
+    <div id="step-10" class="screen">
+        <h2>Dare: August & Elizabeth</h2>
+        <p>August is cheating. Elizabeth is cheating. <br>Roleplay this historic scandal!</p>
+        <button class="btn" onclick="nextStep()">Completed</button>
+    </div>
+
+    <div id="step-11" class="screen">
+        <img src="illustration.png" style="width:250px; border:4px solid gold;">
+        <h1>Enigma Master Dani</h1>
+        <p>You solved the riddles and survived the personas.</p>
+        <p>Date successfully completed!</p>
+    </div>
+
+    <script>
+        let current = 1;
+        function nextStep() {
+            document.getElementById(`step-${current}`).classList.remove('active');
+            current++;
+            document.getElementById(`step-${current}`).classList.add('active');
+        }
+        function toggle(id) {
+            const img = document.getElementById(id);
+            img.style.display = img.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
