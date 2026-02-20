@@ -40,7 +40,7 @@
     <div id="step-2" class="screen sparkles-on">
         <h2>Stop #1</h2>
         <div class="text-wrap">
-            <p><strong>Book club bar 197 3rd st</strong><br>Seek the place that sells novels by the glass.<br>I follow the pair, but I am not even. Seek me on your path east.</p>
+            <p><strong><br>Seek the place that sells novels by the glass.<br>I follow the pair, but I am not even. Seek me on your path east.</p>
         </div>
         <img src="discovery 1.png" class="discovery-img">
         <button class="btn" onclick="showHint('h1')">Show Hint</button>
@@ -50,20 +50,20 @@
 
     <div id="step-3" class="screen">
         <div class="map-container" id="pins-container"></div>
-        <h1>THEY ARE ATTACKING!</h1>
+        <h1>WE'RE UNDER ATTACK HAAAAAA!</h1>
         <button class="btn" onclick="nextStep()">I arrived</button>
     </div>
 
     <div id="step-4" class="screen sparkles-on">
         <h2>Dare: The Book Club</h2>
-        <p class="text-wrap">Pick a book, reinvent the plot and rate the plot. Name the shelf and the place just for fun.</p>
+        <p class="text-wrap">Pick a book : shelve 3 from top 6th book.<br>Reinvent the plot from cover info.<br>Entertain me.</p>
         <button class="btn" onclick="nextStep()">Completed</button>
     </div>
 
     <div id="step-5" class="screen sparkles-on">
         <h2>Stop #2</h2>
         <div class="text-wrap">
-            <p><strong>Biblioteque 54 Mercre street</strong><br>45 Secret Temer(ity)<br>Julius Cesar set one on fire when Benjamin Franklin built one from scratch</p>
+            <p><strong><br>45 Secret Temer(ity)<br>Julius Cesar set one on fire when Benjamin Franklin built one from scratch</p>
         </div>
         <button class="btn" onclick="showHint('h2')">Show Hint</button>
         <div id="h2" class="hint-box">✨ Hint: Bibliotheque ✨</div>
@@ -90,7 +90,7 @@
     <div id="step-8" class="screen sparkles-on">
         <h2>Stop #3</h2>
         <div class="text-wrap">
-            <p><strong>3 Ludlow Hotel 180 Ludlow st</strong><br>A guy's smoking in the living room, above the fireplace. This man is named August. He's 234 years of age. Never trust a sailor. The angle of a straight line will help you find him.</p>
+            <p><strong><br>A guy's smoking in the living room, above the fireplace. <br>This man is named August. He's 234 years of age. <br>Never trust a sailor. <br>The angle of a straight line will help you find him.</p>
         </div>
         <a href="https://www.youtube.com/watch?v=ADjSOOj7hSw" target="_blank" class="btn" style="background:gold; color:black; text-decoration:none;">Listen for Hint</a>
         <button class="btn" onclick="nextStep()">I got it bitch</button>
@@ -112,9 +112,9 @@
     <script>
         let current = 1;
         const dares = {
-            beatrix: "Beatrix: You must mention wanting to kill your teammates because they tried to kill you in a church. You need a new Katana.",
+            beatrix: "Beatrix: Your ex team mates tried to kill you in a church in the midle of texas. Explain whe you need this new Katana.",
             maggie: "Maggie: You are the 30-year-old daughter of the Simpsons. Describe your relationship with your family.",
-            meredith: "Meredith: You're depressed the office is closing. Miss Michael and the team. Give anecdotes."
+            meredith: "Meredith: You're depressed the paper company your working for is closing. You miss your boss Mickael. Do you love him?"
         };
 
         function nextStep() {
